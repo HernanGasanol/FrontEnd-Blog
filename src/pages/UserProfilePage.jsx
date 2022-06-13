@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import UpdateUser from '../components/userProfile/updateUser'
 import UserInfo from '../components/userProfile/UserInfo'
 import { useDispatch, useSelector } from 'react-redux'
 import PostPresentation from '../components/recomendations/PostPresentation'
