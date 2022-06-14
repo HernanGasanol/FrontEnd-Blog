@@ -60,7 +60,7 @@ const PostSinglePost = ({post,file , title , desc,placeholderImage}) => {
 
           <div className="flex flex-col gap-4 pl-8">
            
-          <textarea className="font-normal text-[1.25rem] outline-none resize-none sm:text-[0.8125rem]" readonly="readonly" value={desc || post.desc}></textarea>
+          <textarea className="font-normal text-[1.25rem] outline-none resize-none sm:text-[0.8125rem]" readOnly="readOnly" value={desc || post.desc}></textarea>
            
           
 

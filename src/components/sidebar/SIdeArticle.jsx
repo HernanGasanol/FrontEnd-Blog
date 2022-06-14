@@ -6,20 +6,25 @@ const SIdeArticle = ({post, placeholderImage}) => {
  
    
 
-  
-  const list = [...post.hashtags,
+
+     let list = [...post.hashtags,
     "music",
     "artist",
     "design",
     "inspiration",
-    "styles",
-    "notices",
-  ];
+    "styles"
+     ]
+   
+   list=[...new Set(list)]
+
+
+  
+ 
 
   return (
     <div className="flex h-full w-full  sm:w-full shadow-sm justify-around flex-col gap-4 py-4   px-2 ">
       <div className="flex flex-col  gap-4 w-full h-max">
-        <h2 className="font-medium uppercase  font-medium">{post.title}</h2>
+        <h2 className="font-medium uppercase">{post.title}</h2>
          <div className="group overflow-hidden">
               <div className="relative">
                 <Link to={`/p/${post._id}`}>{post.picture ? <img src={post.picture}/> :   <div className="flex relative w-full h-[300px] items-center justify-center"><div className="absolute backdrop-blur-[1px] w-full h-full top-0 bg-[#00000087]"></div> <MdOutlineNoPhotography className="text-[30px] "/></div>}

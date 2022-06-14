@@ -102,7 +102,7 @@ const Register = () => {
                 value={username}
                 onChange={handleInputChange}
                 id="username"
-                autocomplete="off" 
+                autoComplete="off" 
                 className="outline-none rounded-sm border-[1px] px-6 py-[5px]"
                 required={true}
               />
@@ -118,7 +118,7 @@ const Register = () => {
                 value={email}
                 onChange={handleInputChange}
                 id="email"
-                autocomplete="off" 
+                autoComplete="off" 
                 required={true}
                 className="outline-none border-[1px] rounded-sm pl-2 px-6 py-[5px]"
               />
@@ -132,7 +132,7 @@ const Register = () => {
                 placeholder="password..."
                 name="password"
                 value={password}
-                autocomplete="off" 
+                autoComplete="off" 
                 minLength={6}
                 onChange={handleInputChange}
                 id="password"
@@ -151,7 +151,7 @@ const Register = () => {
             </span>
            
             
-            <button className="bg-black px-[40px] py-2 text-white">submit</button>
+            <button className="bg-black px-[40px] py-2 relative bottom-6  text-white">submit</button>
           </form>
         </div>
       </div>

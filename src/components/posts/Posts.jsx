@@ -13,7 +13,7 @@ const Posts = ({posts}) => {
 
   return (
     <div  className="flex flex-col w-full col-span-1 sm:col-span-2 items-center">
-      {posts && arraySort.map((p) => <Post key={p._id} post={p} placeholderImage={placeholderImage} />)}
+      {posts &&  arraySort.map((p) => <Post key={p._id} post={p} placeholderImage={placeholderImage} />)}
     </div>
   
   );

@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector , useDispatch} from 'react-redux'
+import GenericLoading from '../GenericLoading';
 
 const Post = ({ post,placeholderImage }) => {
 
   const navigate=useNavigate()
+
+ 
+  const idList=()=>{
+    return Math.random()* Math.random() + 1
+  }
 
   return (
    <> 
@@ -22,8 +28,8 @@ const Post = ({ post,placeholderImage }) => {
                
                   <div className="flex justify-center group-hover:translate-y-0  translate-y-[-100%]  gap-4 flex-col items-center absolute backdrop-blur-[4px]  ease-in-out duration-500   w-full h-full top-0 bg-[#00000087]">
                         <div className="flex flex-col items-center gap-2">
-                           <Link to={`/${post.user.username}`}><img src={post.user.profilepic ? post.user.profilepic : placeholderImage } alt="" className="h-[80px] w-[80px] rounded-[50%] object-cover" /></Link> 
-                           <Link to={`/${post.user.username}`}> <span className="text-white">{post.user.username}</span></Link>
+                         <Link to={post.user.username ? `/${post.user.username}`:''}><img src={post.user.profilepic ? post.user.profilepic : placeholderImage } alt="" className="h-[80px] w-[80px] rounded-[50%] object-cover" /></Link> 
+                         <Link to={post.user.username ? `/${post.user.username}`:''}> <span className="text-white">{post.user.username}</span></Link>
                         </div>
                         <div className="flex gap-2"> 
                            <button className="text-white border-[1px] border-white bg-transparent px-4 py-[4px]" onClick={()=> navigate(`/p/${post._id}`)}>Post details</button>
@@ -38,19 +44,19 @@ const Post = ({ post,placeholderImage }) => {
               
               <div className=" row-auto bg-white h-max pb-8   px-2 py-2">
                        <div className="flex gap-4 items-center">
-                         <Link to={`/${post.user.username}`}> <img src={post.user.profilepic ? post.user.profilepic : placeholderImage } alt="" className=" w-[2.5rem] h-[2.5rem] object-cover  rounded-[50%]"/></Link>
+                         <Link to={ post.user.username ?`/${post.user.username}`:''}> <img src={post.user.profilepic ? post.user.profilepic : placeholderImage } alt="" className=" w-[2.5rem] h-[2.5rem] object-cover  rounded-[50%]"/></Link>
                          <div className="flex flex-col">
-                          <Link to={`/${post.user.username}`}><span className="text-black">{post.user.username}</span></Link>
+                          <Link to={post.user.username ? `/${post.user.username}`:''}><span className="text-black">{post.user.username}</span></Link>
                           <span className="text-[8px]">{new Date(post.createdAt).toDateString()}</span>
                          </div>
                       </div>
 
-                      <div class="flex flex-col pl-14">
+                      <div className="flex flex-col pl-14">
                           <Link to={`/p/${post._id}`}><h2 className="text-[15px] uppercase font-bold">{post.title}</h2></Link>
                           <p>{post.desc}</p>
                           <ul className="flex text-[10px] gap-2 text-[#583ed9c9]">
                             {post.hashtags.length ? post.hashtags.map((h) => (
-                              <Link to={`/tag/${h}`}> <li key={h} className="border-[1px] px-2 py-[2px]">{`#${h}`}</li> </Link>)) : ''}
+                              <Link to={`/tag/${h}`}> <li key={idList()} className="border-[1px] px-2 py-[2px]">{`#${h}`}</li> </Link>)) : ''}
                           </ul>
                       </div>
 
@@ -61,7 +67,7 @@ const Post = ({ post,placeholderImage }) => {
          
          </div>
 
-    </div>  :'loading...'}</>
+    </div>  : <GenericLoading/>}</>
   );
 };
 

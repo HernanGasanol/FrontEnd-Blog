@@ -4,11 +4,11 @@ import {setPostsReducer , setPostsByQuery , setPostById} from '../redux/postsSta
 
 
 
-export const getAllPosts=async(dispatch)=>{
+export const getAllPosts=async(dispatch=null)=>{
    try{
      const {data}=await axios.get(`${import.meta.env.VITE_BASE_URL}/posts`);
-     console.log('hi')
-     return {data}
+ 
+     return data
    }catch(e){
         console.log(e)
    }
@@ -28,7 +28,7 @@ export const getPostByQuery=async(query,dispatch)=>{
 export const getPostsByHashtag=async(query)=>{
   try{
     const {data}=await axios.get(`${import.meta.env.VITE_BASE_URL}/posts?hashtag=${query}`);
-     console.log(data)
+
     return {data}
   }catch(e){
        console.log(e)

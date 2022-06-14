@@ -207,7 +207,7 @@ const SinglePostPage= () => {
                 placeholder="Title"
                 className="pl-2  outline-0 border-b-[1px]"
                 name="title"
-                autocomplete="off" 
+                autoComplete="off" 
                 id="title"
                 value={title}
                 onChange={handleInputChange}

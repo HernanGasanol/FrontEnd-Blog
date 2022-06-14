@@ -4,19 +4,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { sendFormUpdatePicUser, updateUser } from '../helpers/usersFetchs'
 import { useForm } from '../hooks/useForm'
-import isLoading from '../components/Loading'
 import Loading from '../components/Loading'
 import { logOut } from '../redux/userState'
 import { SwitchLoginModal } from '../redux/navReducers'
 import { deleteUser } from '../helpers/usersFetchs'
 import GenericModal from '../components/GenericModal'
-
+import {login} from '../redux/userState'
 
 const EditProfilePage = () => {
   
   const  userState=useSelector(state=> state.userState)
   const {loginStatus , user,placeholderImage}=userState
-
+ 
 
   const location=useLocation()
   const path=location.pathname
@@ -28,13 +27,13 @@ const EditProfilePage = () => {
   const[isUpdate,setIsUpdated]=useState({ok:false,msg:''})
   const [hashtags, setHashtags]=useState([])
   const [values,reset, handleInputChange]=useForm({
-    username:null,
-    password:null,
-    email:null, 
-    name:null,
-    lastname:null,
-    age:null,
-    profilepic:null,
+    username:undefined,
+    password:undefined,
+    email:undefined, 
+    name:undefined,
+    lastname:undefined,
+    age:undefined,
+    profilepic:undefined,
   })
 
 
@@ -44,12 +43,11 @@ const EditProfilePage = () => {
 
   const validate=(objectToVerify)=>{
     const validObj={
-   
-      
     }
+    
     for(const p in objectToVerify){
-       if(objectToVerify[p] === null){
-          continue;
+       if(!objectToVerify[p]){
+          delete objectToVerify[p]
          
        }else{
           validObj[p]=objectToVerify[p]
@@ -69,8 +67,7 @@ const EditProfilePage = () => {
     e.preventDefault()
 
     try {
-
-      
+    
       const updateFormUser = {
         username,
         name,
@@ -80,13 +77,9 @@ const EditProfilePage = () => {
         age,
         profilepic
       };
-
-
-
-   const formValid=(validate(updateFormUser))
-
-    console.log(formValid)
-     
+    
+    const formValid=(validate(updateFormUser))
+   
     if (file) {
         try {
           setIsLoading(true);
@@ -97,43 +90,41 @@ const EditProfilePage = () => {
         }
       }
       const token=user.token || '';
-
-      console.log(token)
+      
       const id=user.id
     
-
-
-
       const res = await updateUser(formValid,token,id);
-
-    console.log(res)
-
-     
-      if(res.ok){
       
+    
+
+      if(res.ok){
+ 
+        
         if(formValid.password || formValid.username || formValid.email){
-           dispatch(logOut())
+           
+          dispatch(logOut())
+          setIsUpdated({ok:true, msg:'successfully updated user'})
+           setTimeout(()=>{
+            setIsUpdated({ok:false,msg:''})  
+            },1000)
+     
+
+           navigate("/", {replace:true})
            dispatch(SwitchLoginModal())
-        
-        
+    
           }
+          const newDataUser={...user,...res.user}
 
-        navigate(`/${res.user.username}`,{replace:true})
-
+        dispatch(login(newDataUser))
         setIsLoading(false)
         setIsUpdated({ok:true, msg:'successfully updated user'})
-       
-        
- 
+        navigate(`/${res.user.username}`,{replace:true})
         setTimeout(()=>{
             setIsUpdated({ok:false,msg:''})  
         },1000)
      
       }
-
-
-
-    } catch (e) {
+   } catch (e) {
       setIsLoading(false)
       console.log(e)
       setIsUpdated({ok:true, msg:`update failed`})
@@ -142,7 +133,7 @@ const EditProfilePage = () => {
         setIsUpdated({ok:false,msg:''})  
     },1000)
       console.log(e);
-    }
+   }
   }
 
 
@@ -152,22 +143,25 @@ const EditProfilePage = () => {
   const handleDeleteUser=async(e)=>{
     e.preventDefault()
     const token=user.token || '';
+    const id=user.id
     try {
       setIsLoading(true);
        const {data}=await deleteUser(token,id)
        
       if(data.ok){
+         setIsLoading(false)
+         setIsDeleted({ok:true, msg:'Deleted user'})
        
-         dispatch(logOut())
-        navigate("/",{replace:true})
-        setIsLoading(false)
-        setIsUpdated({ok:true, msg:'Deleted user'})
-       
+         setTimeout(()=>{
+              setIsDeleted({ok:false,msg:''})  
+              dispatch(logOut())
+               navigate("/",{replace:true})
            
+          },1000)
+        
+   
  
-        setTimeout(()=>{
-            setIsDeleted({ok:true,msg:''})  
-        },1000)
+  
      
       }
      
@@ -177,7 +171,7 @@ const EditProfilePage = () => {
         setTimeout(()=>{
           setIsDeleted({ok:false,msg:''})  
       },1000)
-        console.log(e);
+        console.log(error);
      }
   }
 
@@ -193,12 +187,9 @@ const EditProfilePage = () => {
         <div className=" flex flex-col items-center w-full border-b-[1px] py-4  justify-evenly gap-6  sm:shadow-lg  sm:h-[500px] sm:w-[400px] ">
              <div className="flex w-[160px] h-[160px] justify-center   items-center">
           
-                 <img src={`${file ? URL.createObjectURL(file) : placeholderImage }`}  alt=""  className="h-[150px] w-[150px] my-4 object-cover rounded-[50%]" />
+                 <img src={`${file ? URL.createObjectURL(file) : placeholderImage }`}  alt="image upload"  className="h-[150px] w-[150px] my-4 object-cover rounded-[50%]" />
 
-              
-               
-
-             </div>
+            </div>
 
             <div className="flex flex-col gap-4  text-lg text-left" >
                 <p className="border-b-[1px] pl-2" >{username || user.username}</p>
@@ -206,20 +197,13 @@ const EditProfilePage = () => {
                 <p className="border-b-[1px] pl-2">{lastname || user.lastname}</p>
                 <p className="border-b-[1px] pl-2">{ email || user.email}</p>
                 <p className="border-b-[1px] pl-2">{age || user.age}</p>
-                
-                
             </div>
+        
         </div>
 
         <div>
          
-         
-         
-         
-         
-         
-         
-          <form
+         <form
             className="flex flex-col w-full items-center gap-4 p-10   h-full shadow-sm justify-around sm:border-[1px] sm:h-[500px] sm:w-[400px]"
             onSubmit={handleSubmit}
           >
@@ -235,7 +219,7 @@ const EditProfilePage = () => {
                 id="username"
                 maxLength={15}
                 value={username}
-                autocomplete="off" 
+                autoComplete="off" 
                 onChange={handleInputChange}
               
               />
@@ -249,7 +233,7 @@ const EditProfilePage = () => {
                 placeholder="name"
                 className="pl-2  outline-0 border-b-[1px]"
                 name="name"
-                autocomplete="off" 
+                autoComplete="off" 
                 id="name"
                 value={name}
                 onChange={handleInputChange}
@@ -268,7 +252,7 @@ const EditProfilePage = () => {
                 name="lastname"
                 id="lastname"
                 value={lastname}
-                autocomplete="off" 
+                autoComplete="off" 
                 onChange={handleInputChange}
               />
             </div>   
@@ -280,8 +264,9 @@ const EditProfilePage = () => {
                 className="pl-2  outline-0 border-b-[1px]"
                 name="email"
                 id="email"
-                autocomplete="off" 
-                maxLength={20}
+                minLength={6}
+                autoComplete="off" 
+                maxLength={30}
                 value={email}
                 onChange={handleInputChange}
               />
@@ -313,7 +298,7 @@ const EditProfilePage = () => {
                 className="pl-2  outline-0 border-b-[1px]"
                 name="age"
                 id="age" 
-                autocomplete="off" 
+                autoComplete="off" 
                 max={100}
                 value={age}
                 onChange={handleInputChange}
@@ -326,10 +311,10 @@ const EditProfilePage = () => {
               <div className="flex flex-col items-center gap-2">
                 <div className="flex gap-2">
                   <label htmlFor="fileInput" className="text-sm">
-                    <MdOutlineCreateNewFolder class="text-[1.25rem]" />
+                    <MdOutlineCreateNewFolder className="text-[1.25rem]" />
                   </label>
 
-                  <span className="text-sm">Update post picture</span>
+                  <span className="text-sm">Update profile picture</span>
                   <input
                     type="file"
                     id="fileInput"

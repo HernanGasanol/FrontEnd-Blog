@@ -121,7 +121,7 @@ const CreatePostPage = () => {
             type="text"
             placeholder="Title"
              
-            autocomplete="off" 
+            autoComplete="off" 
             
             className="pl-2  outline-0 border-b-[1px]"
             name="title"
@@ -167,7 +167,7 @@ const CreatePostPage = () => {
                 id="fileInput"
                 className="hidden"
                 name="file"
-                autocomplete="off" 
+                autoComplete="off" 
                 onChange={(e) => setFile(e.target.files[0])}
               />
             </div>

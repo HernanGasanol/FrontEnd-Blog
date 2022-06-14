@@ -19,11 +19,6 @@ const NavBar = () => {
     const path = location.pathname;
     const {user, loginStatus, placeholderImage}=userState
 
-    // useEffect(() => {
-    //   dispatch(SwitchNavModal(false));
-   
-    // }, []);
-
   
     return (
     <div className=" flex w-full h-[3.125rem]  sticky top-0 bg-white z-30  p-4 justify-between border-b-[1px] border-[ hsl(0, 0%, 90%)]">

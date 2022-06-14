@@ -9,6 +9,7 @@ import { useLocation , useNavigate } from "react-router-dom";
 import { searchUsers } from '../../../helpers/searchUsers';
 import { useQuery } from 'react-query';
 import UserSearchCard from './UserSearchCard';
+import GenericLoading from '../../GenericLoading';
 
 
 
@@ -99,12 +100,12 @@ const NavLeft = ({user , loginStatus , placeholderImage}) => {
            
               </div>
 
-              <div class="w-full h-full mb-10">
+              <div className="w-full h-full mb-10">
                  
                         {data ?data.map(user => (
                   
                         <UserSearchCard key={user.username} user={user}/>
-                      )):'loading..'}
+                      )):<GenericLoading/>}
               </div>
           </div>
           

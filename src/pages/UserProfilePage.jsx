@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import PostPresentation from '../components/recomendations/PostPresentation'
 import { Link, useLocation } from 'react-router-dom'
 import { getUserByQuery } from '../helpers/usersFetchs'
-import { setUsersByQuery } from '../redux/usersState'
-import { useQuery } from 'react-query'
-import axios from 'axios'
 import GenericLoading from '../components/GenericLoading'
 
 
@@ -29,9 +26,6 @@ const UserProfilePage = () => {
     const [allowModify, setAllowModify] = useState(false);
 
     const [userData, setUserQuery] = useState();
-  
-  
-    
 
 useEffect(() => {
   const fetching = async () => {
@@ -48,12 +42,6 @@ useEffect(() => {
   fetching();
 }, [usernamePath, loginStatus]);
 
-    
-   const infoUser=['name','lastname', 'age'];
-
-
-     
-
   
  
    return (
@@ -69,7 +57,7 @@ useEffect(() => {
                             <div className="flex items-center mb-2">
                                 <img src={userData.profilepic ? userData.profilepic : placeholderImage } alt='user picture profile' className="h-[120px] w-[120px] object-cover  rounded-[50%] " />
                                <div className="flex flex-col">
-                                <Link to={`/${userData.username}`}> <span className="pl-4 text-[25px]">{userData.username}</span> </Link>
+                                 <span className="pl-4 text-[25px]">{userData.username}</span>
                                 <div className="flex gap-2 pl-4 ">
                                   <span>{userData.name ||'' } </span>
                                   <span>{userData.lastname || ''} </span>

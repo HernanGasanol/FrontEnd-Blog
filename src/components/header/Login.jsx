@@ -82,7 +82,7 @@ const Login = () => {
               name="email"
               id="email"   
                
-              autocomplete="off" 
+              autoComplete="off" 
               onChange={handleInputChange}
               value={email}
           

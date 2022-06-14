@@ -62,6 +62,7 @@ useEffect(() => {
   return (
     <Routes>
       <Route path="/" index element={<Home />} />
+      
       <Route path="/createpost" element={<CreatePost />} />
       <Route path="/p/:id" element={<SinglePostPage />} />
       <Route path="/:username" element={<UserProfilePage />} />
